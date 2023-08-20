@@ -19,6 +19,8 @@ grammar IsiLang;
 	import java.util.ArrayList;
 	import java.util.Stack;
 	import java.util.Set;
+	import ExpressionEval.VariableExtractor;
+	import ExpressionEval.EvaluateExpression;
 }
 
 @members{
@@ -34,7 +36,7 @@ grammar IsiLang;
 	private String _opRel;
 	private String _exprRel1;
 	private String _exprRel2;
-	
+
 	private IsiProgram program = new IsiProgram();
 	private String _readId;
 	private String _expressionString;
@@ -230,7 +232,24 @@ grammar IsiLang;
 				throw new IsiSemanticException("Erro: O tipo " + leftType + " não pode receber variável do tipo " + rightType + " na atribuição.");
 		}
 	}
-	
+
+	public boolean isExpressionEvaluable(String expression, DataType type) {
+		if (!(type == DataType.INT || type == DataType.FLOAT)) return false;
+
+		Set<String> variableIds = VariableExtractor.extractVariableIds(expression);
+
+		return variableIds.isEmpty() ? true : false;
+	}
+
+	public String evaluateExpression(String expression, DataType type) {
+		if (type == DataType.FLOAT) {
+			float result = EvaluateExpression.evaluate(expression);
+			return Float.toString(result);
+		} else {
+			int result = (int)EvaluateExpression.evaluate(expression);
+			return Integer.toString(result);
+		}
+	}
 }
 
 /*
@@ -314,6 +333,13 @@ cmdattrib:  ID {
 		   	ATTR 
 		   	expr {
 				_rightType = verificaTipoExpressao();
+
+				if (isExpressionEvaluable(_expressionString, _rightType)) {
+					_expressionString = evaluateExpression(_expressionString, _rightType);
+				}
+
+				IsiVariable var = (IsiVariable) symbolTable.get(id);
+				var.setValue(_expressionString);
 			}
 		   	SC {
 				verificaTiposAttrib(_leftType, _rightType);
@@ -418,10 +444,19 @@ cmd_dowhile:	'faça'
 boolean_expr:	(
 					    expr {
 							verificaExpressaoBooleana();
+							_leftType = verificaTipoExpressao();
+
+							if (isExpressionEvaluable(_expressionString, _leftType))
+								_expressionString = evaluateExpression(_expressionString, _leftType);
+
 							_decisionString += _expressionString;
 						}
 					| 	expr {
 							_leftType = verificaTipoExpressao();
+
+							if (isExpressionEvaluable(_expressionString, _leftType))
+								_expressionString = evaluateExpression(_expressionString, _leftType);
+
 							_exprRel1 = _expressionString;
 							
 							_decisionString += _expressionString;
@@ -435,6 +470,10 @@ boolean_expr:	(
 						}
 						expr {
 							_rightType = verificaTipoExpressao();
+
+							if (isExpressionEvaluable(_expressionString, _rightType))
+								_expressionString = evaluateExpression(_expressionString, _rightType);
+
 							_exprRel2 = _expressionString;
 							
 							checkRelationalOperation(_leftType, _rightType, _exprRel1, _exprRel2, _opRel);
@@ -459,7 +498,7 @@ declaravar: tipo
 				_tipo = _input.LT(-2).getText();
 				_varValue = null;
 				_leftType = getType(_tipo);
-				
+
 				cleanExpression();
 			}
 			(
@@ -467,14 +506,18 @@ declaravar: tipo
 				expr {
 					_rightType = verificaTipoExpressao();
 					verificaTiposAttrib(_leftType, _rightType);
-					
+					markSymbolAsInitialized(_varName);
+				
+					if (isExpressionEvaluable(_expressionString, _leftType))
+						_expressionString = evaluateExpression(_expressionString, _leftType);
+
 					_varValue = _expressionString;
 				}
 			)? 
 			SC {
 				if (!symbolTable.exists(_varName)) {
 					_symbol = new IsiVariable(_varName, _tipo, _varValue);
-					System.out.println("Simbolo adicionado "+_symbol);
+					System.out.println("Simbolo adicionado "+_symbol + " com valor: " + _symbol.getValue());
 					symbolTable.add(_symbol);
 				} else {
 					throw new IsiSemanticException("Símbolo "+_varName+" já foi declarado.");

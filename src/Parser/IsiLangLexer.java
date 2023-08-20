@@ -19,6 +19,8 @@ package Parser;
 	import java.util.ArrayList;
 	import java.util.Stack;
 	import java.util.Set;
+	import ExpressionEval.VariableExtractor;
+	import ExpressionEval.EvaluateExpression;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -113,7 +115,7 @@ public class IsiLangLexer extends Lexer {
 		private String _opRel;
 		private String _exprRel1;
 		private String _exprRel2;
-		
+
 		private IsiProgram program = new IsiProgram();
 		private String _readId;
 		private String _expressionString;
@@ -309,7 +311,24 @@ public class IsiLangLexer extends Lexer {
 					throw new IsiSemanticException("Erro: O tipo " + leftType + " não pode receber variável do tipo " + rightType + " na atribuição.");
 			}
 		}
-		
+
+		public boolean isExpressionEvaluable(String expression, DataType type) {
+			if (!(type == DataType.INT || type == DataType.FLOAT)) return false;
+
+			Set<String> variableIds = VariableExtractor.extractVariableIds(expression);
+
+			return variableIds.isEmpty() ? true : false;
+		}
+
+		public String evaluateExpression(String expression, DataType type) {
+			if (type == DataType.FLOAT) {
+				float result = EvaluateExpression.evaluate(expression);
+				return Float.toString(result);
+			} else {
+				int result = (int)EvaluateExpression.evaluate(expression);
+				return Integer.toString(result);
+			}
+		}
 
 
 	public IsiLangLexer(CharStream input) {

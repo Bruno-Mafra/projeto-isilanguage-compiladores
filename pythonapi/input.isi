@@ -1,0 +1,86 @@
+programa 
+	
+	int a;
+	float k = 3.14;
+	bool b;
+	str c = "teste";
+	
+	leia(a);
+	leia(k);
+	
+	a = 1;
+	c = "teste2";
+	b = False;
+	b = True & False;
+	
+	bool o = !(True & False);
+	
+	float y = 2.0*(1.0+k/(5.0 + 3.0*k));
+	float w = 3 * 1.0 * k;
+	
+	se (True) {
+		a = 2;
+		se (False) {
+			se (True) {
+				a = 3;
+			};
+		} senao {
+			a = 4;
+		};
+	};
+	
+	se (True & True) {
+		a = 3;
+	};
+	
+	se (b&o) {
+		a = 4;
+	};
+	
+	se (!b&o) {
+		a = 5;
+	};
+	
+	se (!(b&o)|(b|o)) {
+		a = 6;
+	};
+		
+	se (a > 3) {
+		escreva(a);
+	} senao {
+		escreva(b);
+	};
+		
+	se (2 > 1) { 
+		a = 2; 
+	};
+	
+	se (3 > 2) { 
+		a = 3; 
+	} senao { 
+		a = 1; 
+	};
+	
+	enquanto (a < 5) { 
+		a = a + 1; 
+	};
+	
+	faça { 
+		a = a + 1; 
+	} enquanto (a < 5);
+	
+	escreva("Uma string");
+	
+	escreva(" Uma string bem
+	
+	grande");
+	
+	escreva(123);
+	
+	escreva(True);
+	
+	escreva(1 + 1);
+	
+	escreva(a + a + 2);
+	
+fimprog;

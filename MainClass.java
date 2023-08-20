@@ -2,13 +2,13 @@ import java.util.Scanner;
 public class MainClass{
 public static void main(String args[]) {
 Scanner reader = new Scanner(System.in);
-int a;
-double k = 3.14;
+int a = 7;
+double k = 3.14+a;
 boolean b;
 String c = "teste";
 a = reader.nextInt();
 k = reader.nextDouble();
-a = 1;
+a = 11;
 c = "teste2";
 b = false;
 b = true&&false;
@@ -60,7 +60,7 @@ else {
 a = 4;
 }
 
-if (a>3) {
+if (a>7.5) {
 System.out.println(a);
 }
 else {

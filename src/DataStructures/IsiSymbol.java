@@ -32,5 +32,4 @@ public class IsiSymbol {
 	public boolean getIsUsed() {
 		return this.isUsed;
 	}
-	
 }

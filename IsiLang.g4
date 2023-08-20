@@ -104,12 +104,6 @@ grammar IsiLang;
 		if (symbol != null) symbol.markAsInitialized();
 	}
 	
-	public void markSymbolAsUsed(String id) {
-		IsiSymbol symbol = symbolTable.get(id);
-
-		if (symbol != null) symbol.markAsUsed();
-	}
-	
 	public void verificaDeclaracao(String id) {
 		if (!symbolTable.exists(id)) {
 			throw new IsiSemanticException("Símbolo "+id+" não foi declarado.");

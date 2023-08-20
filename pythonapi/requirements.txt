@@ -1,0 +1,2 @@
+fastapi[full]
+uvicorn[stadard]

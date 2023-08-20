@@ -10,6 +10,7 @@ package Parser;
 	import CodeGeneration.CommandDeclaracao;
 	import CodeGeneration.CommandDoWhile;
 	import CodeGeneration.CommandEscrita;
+	import CodeGeneration.CommandEscritaSL;
 	import CodeGeneration.CommandIf;
 	import CodeGeneration.CommandLeitura;
 	import CodeGeneration.CommandWhile;
@@ -90,6 +91,18 @@ public class IsiLangBaseListener implements IsiLangListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCmdescrita(IsiLangParser.CmdescritaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCmdescritasl(IsiLangParser.CmdescritaslContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCmdescritasl(IsiLangParser.CmdescritaslContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

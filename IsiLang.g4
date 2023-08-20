@@ -10,6 +10,7 @@ grammar IsiLang;
 	import CodeGeneration.CommandDeclaracao;
 	import CodeGeneration.CommandDoWhile;
 	import CodeGeneration.CommandEscrita;
+	import CodeGeneration.CommandEscritaSL;
 	import CodeGeneration.CommandIf;
 	import CodeGeneration.CommandLeitura;
 	import CodeGeneration.CommandWhile;
@@ -252,11 +253,13 @@ bloco: 	{
 
 cmd:  cmdleitura { System.out.println("Reconheci um comando de leitura."); }
 	| cmdescrita { System.out.println("Reconheci um comando de escrita."); }
+	| cmdescritasl { System.out.println("Reconheci um comando de escrita na mesma linha."); }
 	| cmdattrib  { System.out.println("Reconheci um comando de atribuição."); }
 	| cmdif 	 { System.out.println("Reconheci um comando if."); }
 	| cmdwhile	 { System.out.println("Reconheci um comando while."); }
 	| cmd_dowhile { System.out.println("Reconheci um comando dowhile."); }
 	| cmd_declaracao { System.out.println("Reconheci uma declaração de variável."); };
+
 	
 cmdleitura: 'leia' 
 			AP 
@@ -288,6 +291,19 @@ cmdescrita: 'escreva' {
 				allCommands.peek().add(cmd);
 			};
 			
+cmdescritasl: 	'escrevasl' {
+					cleanExpression();
+				}
+				AP
+				expr {
+					DataType _exprType = verificaTipoExpressao();
+				}
+				FP
+				SC {
+					CommandEscritaSL cmd = new CommandEscritaSL(_expressionString, _exprType);
+					allCommands.peek().add(cmd);
+				};
+			
 cmdattrib:  ID {
 				String id = _input.LT(-1).getText();
 				verificaDeclaracao(id);
@@ -303,6 +319,8 @@ cmdattrib:  ID {
 				verificaTiposAttrib(_leftType, _rightType);
 		   		
 		   		markSymbolAsInitialized(id);
+		   		IsiVariable x = (IsiVariable) symbolTable.get(id);
+                x.setValue(_expressionString);
 		   		
 		   		CommandAttrib cmd = new CommandAttrib(id, _expressionString, _rightType);
 		   		allCommands.peek().add(cmd);

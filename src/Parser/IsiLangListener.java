@@ -10,6 +10,7 @@ package Parser;
 	import CodeGeneration.CommandDeclaracao;
 	import CodeGeneration.CommandDoWhile;
 	import CodeGeneration.CommandEscrita;
+	import CodeGeneration.CommandEscritaSL;
 	import CodeGeneration.CommandIf;
 	import CodeGeneration.CommandLeitura;
 	import CodeGeneration.CommandWhile;
@@ -76,6 +77,16 @@ public interface IsiLangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCmdescrita(IsiLangParser.CmdescritaContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#cmdescritasl}.
+	 * @param ctx the parse tree
+	 */
+	void enterCmdescritasl(IsiLangParser.CmdescritaslContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#cmdescritasl}.
+	 * @param ctx the parse tree
+	 */
+	void exitCmdescritasl(IsiLangParser.CmdescritaslContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link IsiLangParser#cmdattrib}.
 	 * @param ctx the parse tree

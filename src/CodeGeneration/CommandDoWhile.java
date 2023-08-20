@@ -56,7 +56,7 @@ public class CommandDoWhile extends AbstractCommand {
 		for(AbstractCommand cmd: listaComandos) {
 			str.append("\t"+cmd.generatePythonCode()+"\n");
 		}
-		str.append("\t"+"if ("+condicao+"): break");
+		str.append("\t"+"if not ("+condicao+"): break");
 		
 		return str.toString();
 	}

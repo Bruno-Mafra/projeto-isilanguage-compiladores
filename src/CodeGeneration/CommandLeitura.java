@@ -44,7 +44,7 @@ public class CommandLeitura extends AbstractCommand {
 		// TODO Auto-generated method stub
 		String output_code;
 		if (this.type.equals("str")) {
-			output_code = "scanf(\"%s\", &"+this.id+");";
+			output_code = "scanf(\"%s\", "+this.id+");";
 		} else if (this.type.equals("float")) {
 			output_code = "scanf(\"%f\", &"+this.id+");";
 		} else if (this.type.equals("int")) {

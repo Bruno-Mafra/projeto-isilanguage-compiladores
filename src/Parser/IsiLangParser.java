@@ -138,6 +138,7 @@ public class IsiLangParser extends Parser {
 		
 		public void exibeComandos(){
 			for (AbstractCommand c: program.getComandos()){
+				System.out.println(c);
 			}
 		}
 		
@@ -1370,7 +1371,6 @@ public class IsiLangParser extends Parser {
 
 									_rightType = verificaTipoExpressao();
 									verificaTiposAttrib(_leftType, _rightType);
-									markSymbolAsInitialized(_varName);
 								
 									if (isExpressionEvaluable(_expressionString, _leftType))
 										_expressionString = evaluateExpression(_expressionString, _leftType);
@@ -1386,6 +1386,8 @@ public class IsiLangParser extends Parser {
 							if (!symbolTable.exists(_varName)) {
 								_symbol = new IsiVariable(_varName, _tipo, _varValue);
 								symbolTable.add(_symbol);
+								
+								markSymbolAsInitialized(_varName);
 							} else {
 								throw new IsiSemanticException("Símbolo "+_varName+" já foi declarado.");
 							}

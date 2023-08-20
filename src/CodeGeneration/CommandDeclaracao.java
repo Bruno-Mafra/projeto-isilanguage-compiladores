@@ -51,7 +51,7 @@ public class CommandDeclaracao extends AbstractCommand {
 		String outputCode;
 		
 		if (this.tipo.equals("str")) {
-			outputCode = "char "+this.id+"[]";
+			outputCode = "char "+this.id+"[1024]";
 		} else {
 			outputCode = this.tipo + " " + this.id;
 		}
@@ -63,6 +63,8 @@ public class CommandDeclaracao extends AbstractCommand {
 				outputCode = outputCode.replace("&", "&&").replace("|", "||");
 			}
 		}
+		
+		outputCode = outputCode + ";";
 		
 		return outputCode;
 	}

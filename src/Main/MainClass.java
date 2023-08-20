@@ -20,8 +20,6 @@ public class MainClass {
 			
 			parser.prog();
 			
-			parser.exibeComandos();
-			
 			String outputCode = args[0];
 			
 			parser.generateCode(outputCode);

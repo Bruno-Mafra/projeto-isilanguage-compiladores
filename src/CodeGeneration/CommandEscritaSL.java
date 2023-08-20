@@ -51,13 +51,13 @@ public class CommandEscritaSL extends AbstractCommand {
 		String outputCode;
 		
 		if (this.tipo.equals("str")) {
-			outputCode = "printf(\"\r%s\", "+cExpression+");";
+			outputCode = "printf(\"%s\", "+cExpression+");";
 		} else if (this.tipo.equals("int")) {
-			outputCode = "printf(\"\r%d\", "+cExpression+");";
+			outputCode = "printf(\"%d\", "+cExpression+");";
 		} else if (this.tipo.equals("float")) {
-			outputCode = "printf(\"\r%f\", "+cExpression+");";
+			outputCode = "printf(\"%f\", "+cExpression+");";
 		} else {
-			outputCode = "printf(\"\r%d\", "+cExpression+");";
+			outputCode = "printf(\"%d\", "+cExpression+");";
 		}
 		
 		outputCode = outputCode.replace("\n", "\\n");

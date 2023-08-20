@@ -129,6 +129,7 @@ public class IsiLangLexer extends Lexer {
 		
 		public void exibeComandos(){
 			for (AbstractCommand c: program.getComandos()){
+				System.out.println(c);
 			}
 		}
 		

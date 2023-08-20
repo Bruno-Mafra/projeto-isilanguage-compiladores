@@ -499,6 +499,13 @@ declaravar: tipo
 				_varValue = null;
 				_leftType = getType(_tipo);
 
+				if (!symbolTable.exists(_varName)) {
+					_symbol = new IsiVariable(_varName, _tipo);
+					symbolTable.add(_symbol);
+				} else {
+					throw new IsiSemanticException("Símbolo "+_varName+" já foi declarado.");
+				}
+
 				cleanExpression();
 			}
 			(
@@ -506,23 +513,18 @@ declaravar: tipo
 				expr {
 					_rightType = verificaTipoExpressao();
 					verificaTiposAttrib(_leftType, _rightType);
-				
+					markSymbolAsInitialized(_varName);
+
 					if (isExpressionEvaluable(_expressionString, _leftType))
 						_expressionString = evaluateExpression(_expressionString, _leftType);
 
 					_varValue = _expressionString;
+
+					IsiVariable var = (IsiVariable)symbolTable.get(_varName);
+					var.setValue(_varValue);
 				}
 			)? 
 			SC {
-				if (!symbolTable.exists(_varName)) {
-					_symbol = new IsiVariable(_varName, _tipo, _varValue);
-					symbolTable.add(_symbol);
-					
-					markSymbolAsInitialized(_varName);
-				} else {
-					throw new IsiSemanticException("Símbolo "+_varName+" já foi declarado.");
-				}
-				
 				CommandDeclaracao cmd = new CommandDeclaracao(_tipo, _varName, _varValue);
 				allCommands.peek().add(cmd);
 			};

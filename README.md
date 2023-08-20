@@ -1,5 +1,9 @@
-# projeto-isilanguage-compiladores
+# Projeto IsiLanguage - Compiladores
 
-Bruno Mafra
+Projeto da disciplina de Compiladores - UFABC - 2023.
 
-Patrick Oliveira
+### Integrantes:
+
+- Bruno Mafra - 11201811147
+
+- Patrick Oliveira - 11002616

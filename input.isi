@@ -20,7 +20,7 @@ programa
 	
 	se (1 + (6/2)*4 +5 > 2.4) {
 		escreva(c);
-	}
+	};
 
 	se (True) {
 		a = 2;

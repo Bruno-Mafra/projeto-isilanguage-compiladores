@@ -15,6 +15,10 @@ b = true&&false;
 boolean o = !(true&&false);
 double y = 2.0*(1.0+k/(5.0+3.0*k));
 double w = 3*1.0*k;
+if (18>2.4) {
+System.out.println(c);
+}
+
 if (true) {
 a = 2;
 if (true) {
@@ -89,7 +93,7 @@ do {
 a = a+1;
 } while (a<5);
 System.out.println("Uma string");
-System.out.println(" Uma string bem\n	\n	grande");
+System.out.println(" Uma string bem\n	\n	grande");
 System.out.println(123);
 System.out.println(true);
 System.out.println(1+1);

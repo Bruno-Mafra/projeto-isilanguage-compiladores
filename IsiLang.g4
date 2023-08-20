@@ -50,7 +50,6 @@ grammar IsiLang;
 	
 	public void exibeComandos(){
 		for (AbstractCommand c: program.getComandos()){
-			System.out.println(c);
 		}
 	}
 	
@@ -270,14 +269,14 @@ bloco: 	{
 }
 		(cmd)+; 
 
-cmd:  cmdleitura { System.out.println("Reconheci um comando de leitura."); }
-	| cmdescrita { System.out.println("Reconheci um comando de escrita."); }
-	| cmdescritasl { System.out.println("Reconheci um comando de escrita na mesma linha."); }
-	| cmdattrib  { System.out.println("Reconheci um comando de atribuição."); }
-	| cmdif 	 { System.out.println("Reconheci um comando if."); }
-	| cmdwhile	 { System.out.println("Reconheci um comando while."); }
-	| cmd_dowhile { System.out.println("Reconheci um comando dowhile."); }
-	| cmd_declaracao { System.out.println("Reconheci uma declaração de variável."); };
+cmd:  cmdleitura
+	| cmdescrita
+	| cmdescritasl
+	| cmdattrib
+	| cmdif
+	| cmdwhile
+	| cmd_dowhile
+	| cmd_declaracao;
 
 	
 cmdleitura: 'leia' 
@@ -517,7 +516,6 @@ declaravar: tipo
 			SC {
 				if (!symbolTable.exists(_varName)) {
 					_symbol = new IsiVariable(_varName, _tipo, _varValue);
-					System.out.println("Simbolo adicionado "+_symbol + " com valor: " + _symbol.getValue());
 					symbolTable.add(_symbol);
 				} else {
 					throw new IsiSemanticException("Símbolo "+_varName+" já foi declarado.");
@@ -569,26 +567,22 @@ fator: 	(
 			 	
 			 	_expressionString = _expressionString + id;
 			 	expressionTypes.add(idType);
-			 	System.out.println("Fator ID detectado "+id+" com tipo "+idType);
 			 } 
 		   | NUMBER {
 		   		String fator = _input.LT(-1).getText();
 		   		_expressionString = _expressionString + fator;
 		   		DataType numberType = getNumberType(fator);
 		   		expressionTypes.add(numberType);
-		   		System.out.println("Fator NUMBER detectado "+fator+" com tipo "+numberType);
 		   }
 		   | BOOLEAN {
 		   		String fator = _input.LT(-1).getText();
 		   		_expressionString = _expressionString + fator;
 		   		expressionTypes.add(DataType.BOOL);
-		   		System.out.println("Fator BOOL detectado "+fator);
 		   }
 		   | STRING {
 		   		String fator = _input.LT(-1).getText();
 		   		_expressionString = _expressionString + fator;
 		   		expressionTypes.add(DataType.STR);
-		   		System.out.println("Fator STRING detectado "+fator);
 		   }
 		   | AP {
 		   		_expressionString = _expressionString + "(";
@@ -615,5 +609,5 @@ ATTR: '=';
 ID: [a-z] ([a-z] | [A-Z] | [0-9])*;
 BOOLEAN: 'True' | 'False';
 NUMBER: [0-9]+ ('.' [0-9]+)?;
-STRING: '"' ([a-z] | [A-Z] | [0-9] | ' ' | '\t' | '\n' | 'wn')* '"';
-WS: (' ' | '\t' | '\n' | 'wn') -> skip;
+STRING: '"' ([a-z] | [A-Z] | [0-9] | ' ' | '\t' | '\n' | 'wn' | '\r')* '"';
+WS: (' ' | '\t' | '\n' | 'wn' | '\r') -> skip;
